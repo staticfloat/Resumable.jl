@@ -35,7 +35,7 @@ function upload_file(file_path::AbstractString, target::AbstractString;
             # That chunk is not there yet, let's post it up.
             seek(f, chunk_idx*chunk_size - 1)
             data = read(f, chunk_size)
-            params["file"] = data
+            params["file"] = IOBuffer(data)
 
             println("Uploading chunk $chunk_idx...")
             res = HTTP.post(client, uri; body=params, verbose=true)
